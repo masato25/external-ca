@@ -12,7 +12,7 @@ esac
 CURRENTORGDOMAIN=orderer.example.com
 CURRENTORGMSPNAME=Orderer
 
-REPLACEORGDOMAIN=orderer.example.com
+REPLACEORGDOMAIN=orderer.tsohue.com
 REPLACEORGMSPNAME=Orderer
 
 echo "Current os: $machine"
