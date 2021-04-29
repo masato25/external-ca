@@ -28,8 +28,9 @@ services:
       - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: orderer
-    #dns:
-    #  - 10.140.0.12
+    dns:
+      - 10.140.0.12
+      - 8.8.8.8
     ports:
       - 7050:7050
     volumes:
@@ -61,8 +62,9 @@ services:
       - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: orderer
-    #dns:
-    #  - 10.140.0.12
+    dns:
+      - 10.140.0.12
+      - 8.8.8.8
     ports:
       - 7049:7050
     volumes:
@@ -97,8 +99,9 @@ services:
       - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: orderer
-    #dns:
-    #  - 10.140.0.12
+    dns:
+      - 10.140.0.12
+      - 8.8.8.8
     ports:
       - 7048:7050
     volumes:
@@ -209,8 +212,9 @@ services:
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: peer node start
-    #dns:
-    #  - 10.140.0.12
+    dns:
+      - 10.140.0.12
+      - 8.8.8.8
     ports:
       - 7051:7051
       - 7052:7052
@@ -257,8 +261,9 @@ services:
       - CORE_PEER_TLS_ROOTCERT_FILE=/var/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: /bin/bash
-    #dns:
-    #  - 10.140.0.12
+    dns:
+      - 10.140.0.12
+      - 8.8.8.8
     volumes:
       - /var/run/:/host/var/run/
       - ./chaincode/:/opt/gopath/src/github.com/
