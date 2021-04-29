@@ -1,5 +1,6 @@
 # TWO Org fabric networking init chaincode
 
+=> docker exec -it org-cli sh
 ```
 MYCHANNEL=external-ca-channel
 SEQNUMBER=1

@@ -1,5 +1,6 @@
 # Single Org fabric networking init chaincode
 
+=> docker exec -it org-cli sh
 ```
 MYCHANNEL=external-ca-channel
 SEQNUMBER=1
@@ -38,14 +39,12 @@ $ORDERER_TLS \
 --peerAddresses peer0.org1.example.com:7051 \
 --tlsRootCertFiles /var/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
 
-
-
 peer chaincode invoke -o o1.orderer.example.com:7050 --isInit --tls true \
 --cafile $ORDERER_TLS \
 -C $MYCHANNEL -n $LABELNAME \
 --peerAddresses peer0.org1.example.com:7051 \
---tlsRootCertFiles /var/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
-
+--tlsRootCertFiles /var/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt \
+-c '{"Args":["Init"]}' --waitForEvent
 
 
 peer chaincode invoke -o o1.orderer.example.com:7050 --tls true \
