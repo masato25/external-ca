@@ -9,3 +9,6 @@
 ```
 ./scripts/create_orderer2.sh
 ```
+
+## Keep fabric ca database
+Please mount external disk on /etc/hyperledger/fabric-ca-server
