@@ -9,91 +9,149 @@ networks:
   basic:
 
 services:
-  orderer.example.com:
-    container_name: orderer.example.com
-    image: hyperledger/fabric-orderer:1.4.6
+  o1.orderer.example.com:
+    container_name: o1.orderer.example.com
+    image: hyperledger/fabric-orderer:2.2
     environment:
-      - ORDERER_GENERAL_LOGLEVEL=DEBUG
+      - FABRIC_CA_CLIENT_HOME=/var/hyperledger/orderer
+      - FABRIC_LOGGING_SPEC=INFO
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
-      - ORDERER_GENERAL_GENESISMETHOD=file
-      - ORDERER_GENERAL_GENESISFILE=/etc/hyperledger/configtx/genesis.block
+      - ORDERER_GENERAL_LISTENPORT=7050
+      - ORDERER_GENERAL_BOOTSTRAPMETHOD=file
+      - ORDERER_GENERAL_BOOTSTRAPFILE=/etc/hyperledger/configtx/genesis.block
       - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
       - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+      # enabled TLS
       - ORDERER_GENERAL_TLS_ENABLED=true
       - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
       - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
       - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
-    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/orderer
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: orderer
+    #dns:
+    #  - 10.140.0.12
     ports:
       - 7050:7050
     volumes:
-        - ./config/:/etc/hyperledger/configtx
-        - ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/msp:/var/hyperledger/orderer/msp
-        - ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/tls/:/var/hyperledger/orderer/tls
+      - ./config/:/etc/hyperledger/configtx
+      - ./crypto-config/ordererOrganizations/orderer.example.com/orderers/o1.orderer.example.com/msp:/var/hyperledger/orderer/msp
+      - ./crypto-config/ordererOrganizations/orderer.example.com/orderers/o1.orderer.example.com/tls/:/var/hyperledger/orderer/tls
+      - ./identity-rca/orderer/certs/:/var/hyperledger/orderer/root_certs
+      - ./tls-rca/orderer/certs/:/var/hyperledger/orderer/orderer/root_tls_certs
+      - ./crypto-config/ordererOrganizations/orderer.example.com/tlsca/:/var/hyperledger/orderer/tlsca
     networks:
       - basic
- orderer2.example.com:
-    container_name: orderer.example.com
-    image: hyperledger/fabric-orderer:1.4.6
+
+  o2.orderer.example.com:
+    container_name: o2.orderer.example.com
+    image: hyperledger/fabric-orderer:2.2
     environment:
-      - ORDERER_GENERAL_LOGLEVEL=DEBUG
+      - FABRIC_CA_CLIENT_HOME=/var/hyperledger/orderer
+      - FABRIC_LOGGING_SPEC=INFO
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
-      - ORDERER_GENERAL_GENESISMETHOD=file
-      - ORDERER_GENERAL_GENESISFILE=/etc/hyperledger/configtx/genesis.block
+      - ORDERER_GENERAL_LISTENPORT=7050
+      - ORDERER_GENERAL_BOOTSTRAPMETHOD=file
+      - ORDERER_GENERAL_BOOTSTRAPFILE=/etc/hyperledger/configtx/genesis.block
       - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
       - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+      # enabled TLS
       - ORDERER_GENERAL_TLS_ENABLED=true
       - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
       - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
       - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
-    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/orderer
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: orderer
+    #dns:
+    #  - 10.140.0.12
     ports:
-      - 7050:7050
+      - 7049:7050
     volumes:
-        - ./config/:/etc/hyperledger/configtx
-        - ./crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/msp:/var/hyperledger/orderer/msp
-        - ./crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/:/var/hyperledger/orderer/tls
+      - ./config/:/etc/hyperledger/configtx
+      - ./crypto-config/ordererOrganizations/orderer.example.com/orderers/o2.orderer.example.com/msp:/var/hyperledger/orderer/msp
+      - ./crypto-config/ordererOrganizations/orderer.example.com/orderers/o2.orderer.example.com/tls/:/var/hyperledger/orderer/tls
+      - ./identity-rca/orderer/certs/:/var/hyperledger/orderer/root_certs
+      - ./tls-rca/orderer/certs/:/var/hyperledger/orderer/orderer/root_tls_certs
     networks:
       - basic
- orderer3.example.com:
-    container_name: orderer.example.com
-    image: hyperledger/fabric-orderer:1.4.6
+        #extra_hosts:
+        #- "o1.orderer.example.com:192.168.50.4"
+        #- "o2.orderer.example.com:192.168.50.4"
+        #- "o3.orderer.example.com:192.168.50.4"
+
+  o3.orderer.example.com:
+    container_name: o3.orderer.example.com
+    image: hyperledger/fabric-orderer:2.2
     environment:
-      - ORDERER_GENERAL_LOGLEVEL=DEBUG
+      - FABRIC_CA_CLIENT_HOME=/var/hyperledger/orderer
+      - FABRIC_LOGGING_SPEC=INFO
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
-      - ORDERER_GENERAL_GENESISMETHOD=file
-      - ORDERER_GENERAL_GENESISFILE=/etc/hyperledger/configtx/genesis.block
+      - ORDERER_GENERAL_LISTENPORT=7050
+      - ORDERER_GENERAL_BOOTSTRAPMETHOD=file
+      - ORDERER_GENERAL_BOOTSTRAPFILE=/etc/hyperledger/configtx/genesis.block
       - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
       - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+      # enabled TLS
       - ORDERER_GENERAL_TLS_ENABLED=true
       - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
       - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
       - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
-    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/orderer
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: orderer
+    #dns:
+    #  - 10.140.0.12
     ports:
-      - 7050:7050
+      - 7048:7050
     volumes:
-        - ./config/:/etc/hyperledger/configtx
-        - ./crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/msp:/var/hyperledger/orderer/msp
-        - ./crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/:/var/hyperledger/orderer/tls
+      - ./config/:/etc/hyperledger/configtx
+      - ./crypto-config/ordererOrganizations/orderer.example.com/orderers/o3.orderer.example.com/msp:/var/hyperledger/orderer/msp
+      - ./crypto-config/ordererOrganizations/orderer.example.com/orderers/o3.orderer.example.com/tls/:/var/hyperledger/orderer/tls
+      - ./identity-rca/orderer/certs/:/var/hyperledger/orderer/root_certs
+      - ./tls-rca/orderer/certs/:/var/hyperledger/orderer/orderer/root_tls_certs
     networks:
       - basic
-    
+
   ica.org1.example.com:
-    image: hyperledger/fabric-ca:1.4.6
+    image: hyperledger/fabric-ca:1.4.9
     environment:
       - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca/ica.identity.org1.example.com.cert
+      - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/ca/ica.identity.org1.example.com.key.pem
+      - FABRIC_CA_SERVER_CA_CHAINFILE=/etc/hyperledger/fabric-ca-server-config/ca/chain.identity.org1.example.com.cert
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/tlsca/ica.tls.org1.example.com.cert
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/tlsca/ica.tls.org1.example.com.key.pem
+      - FABRIC_CA_SERVER_TLS_CLIENTAUTH_TYPE
     ports:
-      - "7054:7054"
-    command: sh -c 'fabric-ca-server start -b admin:adminpw -d' 
+      - 7054:7054
+    command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
     volumes:
       - ./crypto-config/peerOrganizations/org1.example.com/ca/:/etc/hyperledger/fabric-ca-server-config/ca
       - ./crypto-config/peerOrganizations/org1.example.com/tlsca/:/etc/hyperledger/fabric-ca-server-config/tlsca
-      - ./ca-config/:/etc/hyperledger/fabric-ca-server
+      - ./ca-config/fabric-ca-server-config.yaml:/etc/hyperledger/fabric-ca-server/fabric-ca-server-config.yaml:ro
+      - ./ca-config/tlsca/fabric-ca-server-config.yaml:/etc/hyperledger/fabric-ca-server/tlsca/fabric-ca-server-config.yaml:ro
     container_name: ica.org1.example.com
+    networks:
+      - basic
+
+  ica.orderer.example.com:
+    image: hyperledger/fabric-ca:1.4.9
+    environment:
+      - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca/ica.identity.orderer.example.com.cert
+      - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/ca/ica.identity.orderer.example.com.key.pem
+      - FABRIC_CA_SERVER_CA_CHAINFILE=/etc/hyperledger/fabric-ca-server-config/ca/chain.identity.orderer.example.com.cert
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/tlsca/ica.tls.orderer.example.com.cert
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/tlsca/ica.tls.orderer.example.com.key.pem
+      - FABRIC_CA_SERVER_TLS_CLIENTAUTH_TYPE
+    ports:
+      - "7055:7054"
+    #command: sh -c 'fabric-ca-server start -b admin:adminpw -d --tls.certfile $FABRIC_CA_SERVER_TLS_CERTFILES --tls.keyfile $FABRIC_CA_SERVER_TLS_KEYFILE'
+    command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+    volumes:
+      - ./crypto-config/ordererOrganizations/orderer.example.com/ca/:/etc/hyperledger/fabric-ca-server-config/ca
+      - ./crypto-config/ordererOrganizations/orderer.example.com/tlsca/:/etc/hyperledger/fabric-ca-server-config/tlsca
+      - ./ca-config/orderer/fabric-ca-server-config.yaml:/etc/hyperledger/fabric-ca-server/fabric-ca-server-config.yaml:ro
+      - ./ca-config/orderer/tlsca/fabric-ca-server-config.yaml:/etc/hyperledger/fabric-ca-server/tlsca/fabric-ca-server-config.yaml:ro
+    container_name: ica.orderer.example.com
     networks:
       - basic
 
@@ -107,7 +165,7 @@ services:
       - FABRIC_CA_SERVER_CA_CHAINFILE=/etc/hyperledger/fabric-ca-server-config/newchain.identity.org1.example.com.cert
     ports:
       - "8054:7054"
-    command: sh -c 'fabric-ca-server start -b admin:adminpw -d' 
+    command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
     volumes:
       - ./newica/:/etc/hyperledger/fabric-ca-server-config
       - ./newca-config/:/etc/hyperledger/fabric-ca-server
@@ -117,43 +175,72 @@ services:
 
   peer0.org1.example.com:
     container_name: peer0.org1.example.com
-    image: hyperledger/fabric-peer:1.4.6
+    image: hyperledger/fabric-peer:2.2
     environment:
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
       - CORE_PEER_ID=peer0.org1.example.com
+      - CORE_PEER_ADDRESS=peer0.org1.example.com:7051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
       - FABRIC_LOGGING_SPEC=INFO
+      - CORE_CHAINCODE_LOGGING_LEVEL=INFO
       - CORE_PEER_LOCALMSPID=Org1MSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
-      - CORE_PEER_ADDRESS=peer0.org1.example.com:7051
       # # the following setting starts chaincode containers on the same
       # # bridge network as the peers
       # # https://docs.docker.com/compose/networking/
       - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=net_basic
-      - CORE_LEDGER_STATE_STATEDATABASE=LevelDB
-      - CORE_PEER_GOSSIP_ENDPOINT=peer0.org1.example.com:7051
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb:5984
+      - CORE_PEER_CHAINCODEADDRESS=peer0.org1.example.com:7052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+      # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+      # provide the credentials for ledger to connect to CouchDB.  The username and password must
+      # match the username and password set for the associated CouchDB.
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
+      # GOSSIP Settings
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org1.example.com:7051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org1.example.com:7051
       - CORE_PEER_DISCOVERY_ENABLED=true
       - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_PROFILE_ENABLED=true
       - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: peer node start
+    #dns:
+    #  - 10.140.0.12
     ports:
       - 7051:7051
+      - 7052:7052
       - 7053:7053
     volumes:
-        - /var/run/:/host/var/run/
-        - ./crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp:/etc/hyperledger/fabric/msp
-        - ./crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls:/etc/hyperledger/fabric/tls
+      - /var/run/:/host/var/run/
+      - ./crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp:/etc/hyperledger/fabric/msp
+      - ./crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls:/etc/hyperledger/fabric/tls
     depends_on:
-      - orderer.example.com
+      - o1.orderer.example.com
+      - couchdb
     networks:
       - basic
 
-  cli:
-    container_name: cli
-    image: hyperledger/fabric-tools:1.4.6
+  couchdb:
+    container_name: couchdb
+    image: hyperledger/fabric-couchdb:0.4.21
+    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
+    environment:
+      - COUCHDB_USER=
+      - COUCHDB_PASSWORD=
+    ports:
+      - 5984:5984
+    networks:
+      - basic
+
+  org-cli:
+    container_name: org-cli
+    image: hyperledger/fabric-tools:2.2
     tty: true
     environment:
       - GOPATH=/opt/gopath
@@ -170,10 +257,13 @@ services:
       - CORE_PEER_TLS_ROOTCERT_FILE=/var/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: /bin/bash
+    #dns:
+    #  - 10.140.0.12
     volumes:
-        - /var/run/:/host/var/run/
-        - ./chaincode/:/opt/gopath/src/github.com/
-        - ./crypto-config:/var/crypto
-        - ./config:/config
+      - /var/run/:/host/var/run/
+      - ./chaincode/:/opt/gopath/src/github.com/
+      - ./crypto-config:/var/crypto
+      - ./channel-artifacts:/var/crypto/channel-artifacts
+      - ./config:/config
     networks:
-        - basic
+      - basic

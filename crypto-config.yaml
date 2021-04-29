@@ -7,40 +7,23 @@
 # "OrdererOrgs" - Definition of organizations managing orderer nodes
 # ---------------------------------------------------------------------------
 OrdererOrgs:
-  # ---------------------------------------------------------------------------
-  # Orderer
-  # ---------------------------------------------------------------------------
-  - Name: Orderer1
-    Domain: example.com
-    # ---------------------------------------------------------------------------
-    # "Specs" - See PeerOrgs below for complete description
-    # ---------------------------------------------------------------------------
+  - Name: Orderer
+    Domain: orderer.example.com
     Specs:
-      - Hostname: orderer1
-  - Name: Orderer2
-    Domain: example.com
-    # ---------------------------------------------------------------------------
-    # "Specs" - See PeerOrgs below for complete description
-    # ---------------------------------------------------------------------------
-    Specs:
-      - Hostname: orderer2
-  - Name: Orderer3
-    Domain: example.com
-    # ---------------------------------------------------------------------------
-    # "Specs" - See PeerOrgs below for complete description
-    # ---------------------------------------------------------------------------
-    Specs:
-      - Hostname: orderer3
- PeerOrgs:
-   - Name: Org1
-     Domain: org1.example.com
-     Template:
-       Count: 1
-     Users:
-       Count: 2
-   - Name: Org2
-     Domain: org2.example.com
-     Template:
-       Count: 1
-     Users:
-       Count: 2
+      - Hostname: o1
+      - Hostname: o2
+      - Hostname: o3
+
+#PeerOrgs:
+#  - Name: Org1
+#    Domain: org1.example.com
+#    Template:
+#      Count: 1
+#    Users:
+#      Count: 2
+#  - Name: Org2
+#    Domain: org2.example.com
+#    Template:
+#      Count: 1
+#    Users:
+#      Count: 2
