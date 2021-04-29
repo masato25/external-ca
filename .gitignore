@@ -6,3 +6,4 @@ config/*.tx
 config/*.block
 rnd_openssl.cnf
 root-keys/
+chaincode/hyperledger/fabric/peer/
