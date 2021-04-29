@@ -220,7 +220,6 @@ services:
       - ./crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp:/etc/hyperledger/fabric/msp
       - ./crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls:/etc/hyperledger/fabric/tls
     depends_on:
-      - o1.orderer.example.com
       - couchdb
     networks:
       - basic
