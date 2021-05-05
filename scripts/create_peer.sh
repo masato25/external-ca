@@ -30,7 +30,7 @@ cat /etc/ssl/openssl.cnf | sed "s/RANDFILE\s*=\s*\$ENV::HOME\/\.rnd/#/" > rnd_op
 openssl req -config openssl_root-identity.cnf -new -x509 -sha256 -extensions v3_ca \
 -key identity-rca/private/rca.identity.org1.example.com.key -out \
 identity-rca/certs/rca.identity.org1.example.com.cert -days 3650 -subj \
-"${SUBJ}rca.identity.org1.example.com" -config rnd_openssl.cnf
+"${SUBJ}rca.identity.org1.example.com"
 
 openssl ecparam -name prime256v1 -genkey -noout -out \
 $ORG_DIR/ca/ica.identity.org1.example.com.key
